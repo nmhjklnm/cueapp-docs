@@ -375,14 +375,16 @@
         if (platform === "win") {
           return (
             byNameIncludes(["win", "windows"], [".exe", ".msi", ".zip"]) ||
-            byExt([".exe", ".msi", ".zip"]) ||
+            // Avoid generic .zip fallback, otherwise a macOS zip like *-mac.zip will be mis-detected as Windows.
+            byExt([".exe", ".msi"]) ||
             null
           );
         }
         if (platform === "linux") {
           return (
             byNameIncludes(["linux"], [".appimage", ".deb", ".rpm", ".tar.gz", ".tgz", ".zip"]) ||
-            byExt([".appimage", ".deb", ".rpm", ".tar.gz", ".tgz", ".zip"]) ||
+            // Avoid generic .zip fallback; only treat zip as Linux when the name indicates linux.
+            byExt([".appimage", ".deb", ".rpm", ".tar.gz", ".tgz"]) ||
             null
           );
         }
