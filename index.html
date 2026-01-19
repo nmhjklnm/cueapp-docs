@@ -160,7 +160,11 @@
                 <span class="muted">发布页</span>
               </h1>
               <p class="mt-4 muted leading-relaxed">
-                一个本地协作收件箱：集成 cue-console 与 cueme 的桌面入口。这里展示最新版本、平台下载与变更记录。
+                借助 cue-stack 的能力将任意 agent link 在一起，而 cueapp 则是 agent 的聚合地：
+                你可以在这里统御你的千军万马。
+              </p>
+              <p class="mt-3 muted leading-relaxed">
+                这个页面用于展示桌面端最新版本、三端下载与变更记录。
               </p>
               <div class="mt-5 flex flex-wrap items-center gap-3">
                 <span class="kbd">Win</span>
@@ -254,7 +258,7 @@
                   <div class="text-xs muted">Status</div>
                   <div class="mt-2 text-sm" id="statusLine">Loading…</div>
                   <div class="mt-2 text-xs muted">
-                    如果 release 仓库是 private，GitHub API 会返回 404 —— 这时所有平台都会显示“暂未发布”。
+                    如果 release 源仓库是 private，浏览器侧无法读取 latest release —— 这时所有平台都会显示“暂未发布”。
                   </div>
                 </div>
 
