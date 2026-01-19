@@ -421,11 +421,26 @@
 
       async function loadLatestRelease() {
         try {
-          const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, {
-            headers: { Accept: "application/vnd.github+json" },
-          });
+          const fetchJson = async (url, opts) => {
+            const r = await fetch(url, opts);
+            if (!r.ok) return null;
+            try {
+              return await r.json();
+            } catch {
+              return null;
+            }
+          };
 
-          if (!res.ok) {
+          // Prefer local cached release.json (generated in deploy workflow)
+          // to avoid unauthenticated GitHub API rate limits.
+          let data = await fetchJson("./release.json", { cache: "no-store" });
+          if (!data) {
+            data = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/releases/latest`, {
+              headers: { Accept: "application/vnd.github+json" },
+            });
+          }
+
+          if (!data) {
             state.ok = false;
             state.tag = "—";
             state.assets = [];
@@ -436,7 +451,6 @@
             return;
           }
 
-          const data = await res.json();
           state.release = data;
           state.ok = true;
           state.tag = data && isStr(data.tag_name) ? String(data.tag_name) : "—";
